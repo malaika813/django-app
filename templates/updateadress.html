@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<style>
+body {
+    background-color: #f5f5f5;
+    font-family: "Poppins", sans-serif;
+}
+.container {
+    margin-top: 60px;
+}
+.form-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+form label {
+    font-weight: 600;
+    margin-top: 10px;
+}
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+form input:focus, form select:focus {
+    border-color: #007bff;
+}
+form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+form button:hover {
+    background-color: #0056b3;
+}
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-box">
+            <h3 class="text-center mb-4">Update Address</h3>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+                {% for fm in form %}
+                    <label>{{ fm.label }}</label>
+                    {{ fm }}
+                    <small class="text-danger">{{ fm.errors|striptags }}</small>
+                {% endfor %}
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

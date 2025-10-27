@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<style>
+/* ---------- Custom Internal CSS ---------- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+
+/* Center container */
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* Registration box */
+.form-box {
+    width: 400px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Heading */
+.form-box h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+/* Divider line */
+.form-box hr {
+    border: none;
+    border-top: 2px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* Label styling */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Input fields */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Error messages */
+.text-danger {
+    color: red;
+    font-size: 13px;
+}
+
+/* Register button */
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Login link section */
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #d9534f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="form-container">
+    <div class="form-box">
+        <h3>Customer Registration</h3>
+        <hr>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for fm in form %}
+                <label>{{ fm.label }}</label>
+                {{ fm }}
+                <small class="text-danger">{{ fm.errors|striptags }}</small>
+                <br>
+            {% endfor %}
+            <input type="submit" value="Register">
+            <div class="login-link">
+                <small>Already have an account?
+                    <a href="{% url 'login'%}">Login Here</a>
+                </small>
+            </div>
+            {% if form.non_field_errors %} {% for error in form.non_field_errors %} {{ error }} {% endfor %} {% endif %}
+            {% if form.errors %} {% for field in form %} {% for error in field.errors %} {{ error }} {% endfor %} {% endfor %} {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

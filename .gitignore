@@ -1,0 +1,12 @@
+echo "__pycache__/
+instance/
+.env
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+model.h5
+.DS_Store
+.vscode/
+" > 

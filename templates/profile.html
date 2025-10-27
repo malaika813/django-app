@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.sidebar {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.sidebar a.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.sidebar a.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.sidebar a.btn {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.sidebar a.btn:hover {
+    background-color: #ddd;
+}
+
+.form-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Label and input fields */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.text-danger {
+    color: red;
+    font-size: 13px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.alert {
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+</style>
+
+<div class="container my-5">
+    <div class="row">
+        <h3>Welcome, {{ request.user }}</h3>
+        <hr>
+
+        <!-- Sidebar -->
+        <div class="col-sm-3 sidebar">
+            <ul>
+                <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
+                <li class="d-grid"><a href="{% url 'adress' %}" class="btn">Address</a></li>
+            </ul>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-sm-8 offset-sm-1 form-box">
+            <h3 class="text-center mb-3">Update Profile</h3>
+            <hr>
+
+            <!-- Success Message -->
+            {% if messages %}
+                <div class="alert-container mb-3">
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+                {% for fm in Form%}
+                    <label>{{ fm.label }}</label>
+                    {{ fm }}
+                    <small class="text-danger">{{ fm.errors|striptags }}</small>
+                    <br>
+                {% endfor %}
+                <input type="submit" value="Submit">
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

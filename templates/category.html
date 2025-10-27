@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static%}
+{%block title%} {% endblock title%}
+{%block content%}
+<div class='container my-5'>
+    <div class='col-sm-9'>
+        <div class='row'>
+            {% for prod in products  %}
+        <div class='col text-center mb-4'>
+            <a href='{% url 'product_detail' prod.pk %}' class='btn'>
+                <div>
+                    <img src="{{prod.image.url}}" width="300px" height='200px'/>
+                    <div class='fw-bold'>{{prod.title}}</div>
+                    <div class='fw-bold text-danger'> Rs{{prod.discounted_price}}/-</div>
+                    <small class='fw-light text-danger text-decoration-line-through'> Rs{{prod.selling_price}}/-</small>
+                </div>
+            </a>
+        </div> 
+            {% endfor %}
+                </div>
+                </div>
+                </div>
+        
+
+{%endblock content%}

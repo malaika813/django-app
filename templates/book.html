@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block content %}
+{% for book in books%}
+<h1> <a href="{% url 'book_detail' book.pk %}" > title:<small>{{book.title}}</small></a></h1>
+<h3>Author: <small>{{book.Author}}</small></h3>
+<h2>Price: <small>{{book.price}}</small></h2>
+
+{%endfor%}
+<button> <a href="{% url 'review' %}"> Add Review </a></button>
+
+{% endblock content%}

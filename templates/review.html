@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Add a Review</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-2">Submit Review</button>
+    </form>
+
+    <hr>
+
+    <h3>All Reviews</h3>
+    <ul class="list-group mt-3">
+        {% for review in reviews %}
+            <li class="list-group-item">
+                <strong>{{ review.book.title }}</strong> — Rating: {{ review.rating }}/5 <br>
+                <em>{{ review.review_text }}</em><br>
+                <small>By {{ review.author_name }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No reviews yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

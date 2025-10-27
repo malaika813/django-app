@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block content %}
+
+<style>
+.checkout-container {
+    width: 80%;
+    max-width: 900px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 40px;
+    font-family: "Poppins", sans-serif;
+}
+
+.checkout-container h2 {
+    text-align: center;
+    color: #4a148c;
+    margin-bottom: 30px;
+}
+
+.address-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fafafa;
+    transition: 0.3s;
+}
+
+.address-box:hover {
+    background-color: #f2e9fc;
+    border-color: #b388ff;
+}
+
+.address-box input {
+    margin-right: 10px;
+}
+
+.order-summary {
+    margin-top: 30px;
+    background: #f9f9ff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.place-order {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.place-order:hover {
+    background: linear-gradient(90deg, #4a148c, #005bea);
+    transform: scale(1.03);
+}
+</style>
+
+<div class="checkout-container">
+    <h2>🧾 Checkout</h2>
+
+    <form method="POST" action="{% url 'place_order' %}">
+        {% csrf_token %}
+        
+        {% if addresses %}
+            <p><strong>Select Delivery Address:</strong></p>
+            {% for addr in addresses %}
+            <label class="address-box">
+                <input type="radio" name="selected_address" value="{{ addr.id }}" required>
+                <strong>{{ addr.name }}</strong><br>
+                {{ addr.locality }}, {{ addr.city }}, {{ addr.state }} - {{ addr.zipcode }}<br>
+                📞 {{ addr.mobile }}
+            </label>
+            {% endfor %}
+        {% else %}
+            <p>No address found. Please <a href="{% url 'adress' %}">add an address</a>.</p>
+        {% endif %}
+
+        <div class="order-summary">
+            <h4>Order Summary</h4>
+            <p><strong>Subtotal:</strong> Rs {{ amount }}</p>
+            <p><strong>Shipping:</strong> Rs 40</p>
+            <hr>
+            <h5><strong>Total:</strong> Rs {{ totalamount }}</h5>
+        </div>
+
+        <button type="submit" class="place-order">Place Order →</button>
+    </form>
+</div>
+
+{% endblock content %}

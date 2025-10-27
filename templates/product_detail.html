@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<style>
+/* 🌟 Product Detail Page */
+body {
+    background-color: #f8f9fa;
+    font-family: "Poppins", sans-serif;
+}
+
+.product-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 70px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+}
+
+/* Left Section - Product Image */
+.product-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-left img {
+    width: 420px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.product-left img:hover {
+    transform: scale(1.06);
+}
+
+/* Right Section - Product Info */
+.product-right {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+    color: #333;
+}
+
+.product-right h2 {
+    font-size: 34px;
+    font-weight: 600;
+    color: #4a148c;
+    margin-bottom: 10px;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e53935;
+}
+
+.old-price {
+    text-decoration: line-through;
+    font-size: 16px;
+    color: #999;
+}
+
+.meta {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #555;
+}
+
+.meta strong {
+    color: #111;
+}
+
+.description {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.7;
+    margin-top: 10px;
+}
+
+/* Buttons Section */
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+button,
+.btn-custom {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Add to Cart Button */
+.add-cart {
+    background-color: #5a189a;
+    color: #fff;
+}
+
+.add-cart:hover {
+    background-color: #7b2cbf;
+    transform: scale(1.05);
+}
+
+/* Buy Now Button */
+.buy-now {
+    background: linear-gradient(135deg, #ff7b00, #ffb300);
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 123, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.buy-now:hover {
+    background: linear-gradient(135deg, #e65100, #ff9800);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(230, 81, 0, 0.5);
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+    .product-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+        padding: 30px;
+    }
+
+    .product-left img {
+        width: 80%;
+        height: auto;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+}
+</style>
+
+<div class="product-wrapper">
+    <!-- LEFT: Product Image -->
+    <div class="product-left">
+        <img src="{{ products.image.url }}" alt="{{ products.title }}">
+    </div>
+
+    <!-- RIGHT: Product Info -->
+    <div class="product-right">
+        <h2>{{ products.title }}</h2>
+
+        <div class="price-row">
+            <span class="price">Rs {{ products.discounted_price }}/-</span>
+            <span class="old-price">Rs {{ products.selling_price }}/-</span>
+        </div>
+
+        <div class="meta">
+            <p><strong>Category:</strong> {{ products.category }}</p>
+        </div>
+
+        <p class="description">{{ products.description }}</p>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <form action="{% url 'add-to-cart' %}" method="get" class="d-inline">
+                <input type="hidden" name="prod_id" value="{{ products.id }}">
+                <button type="submit" class="add-cart">🛒 Add to Cart</button>
+            </form>
+
+            <a href="{% url 'adress' %}" class="buy-now">⚡ Buy Now</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

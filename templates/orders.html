@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<style>
+.orders-container {
+    max-width: 900px;
+    margin: 60px auto;
+    font-family: "Poppins", sans-serif;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.order-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+.order-card h4 {
+    color: #4a148c;
+    margin-bottom: 10px;
+}
+
+.order-card p {
+    margin: 4px 0;
+    color: #555;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 8px;
+}
+
+.status.Accepted { background: #6a11cb; }
+.status.Packed { background: #ff9800; }
+.status.On\ The\ Way { background: #1976d2; }
+.status.Delivered { background: #2e7d32; }
+.status.Cancel { background: #d32f2f; }
+</style>
+
+<div class="orders-container">
+    <h2>🛒 My Orders</h2>
+    {% if order_items %}
+        {% for order in order_items %}
+            <div class="order-card">
+                <h4>{{ order.product.title }}</h4>
+                <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                <p><strong>Total Cost:</strong> Rs {{ order.total_cost }}</p>
+                <p><strong>Delivery Address:</strong> {{ order.customer.locality }}, {{ order.customer.city }}, {{ order.customer.state }} - {{ order.customer.zipcode }}</p>
+                <p><strong>Ordered On:</strong> {{ order.ordered_date|date:"d M Y, H:i" }}</p>
+
+                <!-- Status with icon only -->
+                <span class="status {{ order.status }}">
+                    {% if order.status == "Delivered" %}
+                        ✅ Delivered
+                    {% elif order.status == "On The Way" %}
+                        🚚 On The Way
+                    {% elif order.status == "Packed" %}
+                        📦 Packed
+                    {% elif order.status == "Accepted" %}
+                        ✔️ Accepted
+                    {% elif order.status == "Cancel" %}
+                        ❌ Cancelled
+                    {% endif %}
+                </span>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No orders placed yet.</p>
+    {% endif %}
+</div>
+{% endblock content %}
